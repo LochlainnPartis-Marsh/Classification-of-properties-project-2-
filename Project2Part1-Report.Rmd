@@ -96,7 +96,8 @@ The final data we had was practically the original data set, we only removed one
 ``` {r representative check}
 neighborhood.distribution <- houseprices %>%
   group_by(Neighborhood) %>%
-  summarise(Num.props = sum(Id), num.above = sum(as.numeric(SalePrice)), num.below = (sum(Id) - sum(as.numeric(SalePrice))))
+  summarise(Num.props = length(Id), num.above = sum(ifelse(SalePrice == 1, 1, 0)), num.below = (length(Id) - sum(ifelse(SalePrice == 1, 1, 0))))
+
 colnames(neighborhood.distribution) <- c("Neighborhood", "Total number or properties", "Class 1", "Class 0")
 total.class1 <- sum(neighborhood.distribution[, 3])
 total.class2 <- sum(neighborhood.distribution[, 4])
